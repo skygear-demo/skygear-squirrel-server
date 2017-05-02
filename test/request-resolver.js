@@ -9,6 +9,19 @@ var requestResolver = require('../src/request-resolver');
 var GitHubRepo = require('../src/GitHubRepo');
 var ServerMock = require("mock-http-server");
 
+var respData = [
+{
+	tag_name: 'v1.0.0',
+	prerelease: false,
+	assets: [
+	{
+		name: 'osx.dmg',
+		browser_download_url: 'http://url-to-assets/v1.0.0/osx.dmg',
+	}
+	]
+}
+];
+
 describe('request-resolver', function() {
 	// Run an HTTP server on localhost:9000 
 	var server = new ServerMock({ host: "localhost", port: 9000 });
@@ -28,18 +41,7 @@ describe('request-resolver', function() {
 			reply: {
 				status:  200,
 				headers: { "content-type": "application/json" },
-				body:    JSON.stringify([
-				{
-					tag_name: 'v1.0.0',
-					prerelease: false,
-					assets: [
-					{
-						name: 'osx.dmg',
-						browser_download_url: 'http://url-to-assets/v1.0.0/osx.dmg',
-					}
-					]
-				}
-				])
+				body:    JSON.stringify(respData)
 			}
 		});
 		var githubRepo = new GitHubRepo('http://localhost:9000/', 'some-user/some-repo', null);
@@ -60,18 +62,7 @@ describe('request-resolver', function() {
 			reply: {
 				status:  200,
 				headers: { "content-type": "application/json" },
-				body:    JSON.stringify([
-				{
-					tag_name: 'v1.0.0',
-					prerelease: false,
-					assets: [
-					{
-						name: 'osx.dmg',
-						browser_download_url: 'http://url-to-assets/v1.0.0/osx.dmg',
-					}
-					]
-				}
-				])
+				body:    JSON.stringify(respData)
 			}
 		});
 		var githubRepo = new GitHubRepo('http://localhost:9000/', 'some-user/some-repo', null);
