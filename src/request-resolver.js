@@ -12,6 +12,10 @@ exports.resolve = function(githubRepo, version, platform) {
 					url: latestRelease[platform]
 				}
 			}
+		} else {
+			return {
+				statusCode: 204
+			}
 		}
 	})
 }
