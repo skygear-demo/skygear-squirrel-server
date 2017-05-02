@@ -72,4 +72,24 @@ describe('request-resolver', function() {
 			})
 		})
 	});
+
+	it('resolve() 404 for invalid platform', function() {
+		server.on({
+			method: 'GET',
+			path: '/repos/some-user/some-repo/releases',
+			reply: {
+				status:  200,
+				headers: { "content-type": "application/json" },
+				body:    JSON.stringify(respData)
+			}
+		});
+		var githubRepo = new GitHubRepo('http://localhost:9000/', 'some-user/some-repo', null);
+		var someInvalidPlatform = 'some-invalid-platform';
+		return requestResolver.resolve(githubRepo, '0.1.0', someInvalidPlatform).then(result => {
+			expect(result).to.deep.equal({
+				statusCode: 404,
+				body: `Invalid platform - ${someInvalidPlatform}`
+			})
+		})
+	})
 })
