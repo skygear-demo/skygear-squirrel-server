@@ -1,0 +1,24 @@
+{
+  "name": "skygear-squirrel-endpoint",
+  "version": "0.1.0",
+  "description": "A squirrel endpoint running on skygear cloud code",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://tatgean@github.com/tatgean/skygear-squirrel-endpoint.git"
+  },
+  "author": "tatgean",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/tatgean/skygear-squirrel-endpoint/issues"
+  },
+  "homepage": "https://github.com/tatgean/skygear-squirrel-endpoint#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
+    "mocha": "^3.3.0"
+  }
+}
