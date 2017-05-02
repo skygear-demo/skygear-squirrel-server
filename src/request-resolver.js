@@ -11,8 +11,19 @@ exports.resolve = function(githubRepo, version, platform) {
 				body: `Invalid platform - ${platform}`
 			}
 		}
-		var latestRelease = releaseParser.parse(releases[0]);
-		if (semver.gt(latestRelease.version, version)) {
+
+		var latestRelease;
+		for (var i = 0; i < releases.length; i++) {
+			try {
+				latestRelease = releaseParser.parse(releases[i]);
+				break;
+			} catch(e) {
+				if (e.message.startsWith('Invalid version number - '))
+				continue;
+			}
+		}
+
+		if (latestRelease !== undefined && semver.gt(latestRelease.version, version)) {
 			return {
 				statusCode: 200,
 				body: {

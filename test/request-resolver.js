@@ -17,6 +17,10 @@ var respData = [
 	{
 		name: 'osx.dmg',
 		browser_download_url: 'http://url-to-assets/v1.0.0/osx.dmg',
+	},
+	{
+		name: 'win.exe',
+		browser_download_url: 'http://url-to-assets/v1.0.0/win.exe'
 	}
 	]
 }
@@ -89,6 +93,56 @@ describe('request-resolver', function() {
 			expect(result).to.deep.equal({
 				statusCode: 404,
 				body: `Invalid platform - ${someInvalidPlatform}`
+			})
+		})
+	})
+
+	it('resolve() only newest VALID version is returned', function() {
+		server.on({
+			method: 'GET',
+			path: '/repos/some-user/some-repo/releases',
+			reply: {
+				status:  200,
+				headers: { "content-type": "application/json" },
+				body:    JSON.stringify([
+				{
+					tag_name: 'va.b.c',
+					prerelease: false,
+					assets: [
+					{
+						name: 'osx.dmg',
+						browser_download_url: 'http://url-to-assets/va.b.c/osx.dmg',
+					},
+					{
+						name: 'win.exe',
+						browser_download_url: 'http://url-to-assets/va.b.c/win.exe'
+					}
+					]
+				},
+				{
+					tag_name: 'v1.0.0',
+					prerelease: false,
+					assets: [
+					{
+						name: 'osx.dmg',
+						browser_download_url: 'http://url-to-assets/v1.0.0/osx.dmg',
+					},
+					{
+						name: 'win.exe',
+						browser_download_url: 'http://url-to-assets/v1.0.0/win.exe'
+					}
+					]
+				},
+				])
+			}
+		});
+		var githubRepo = new GitHubRepo('http://localhost:9000/', 'some-user/some-repo', null);
+		return requestResolver.resolve(githubRepo, '0.1.0', 'osx').then(result => {
+			expect(result).to.deep.equal({
+				statusCode: 200,
+				body: {
+					url: 'http://url-to-assets/v1.0.0/osx.dmg'
+				}
 			})
 		})
 	})
