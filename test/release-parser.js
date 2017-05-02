@@ -151,6 +151,7 @@ describe('release-parser', function() {
 
 	it ('parse() osx assets file extension priority', function() {
 		var data = getResFromGitHubApi();
+		data.assets.length = 0;
 		data.assets.push({
 			"name": "sse-osx.dmg",
 			"browser_download_url": "https://github.com/tatgean/skygear-squirrel-endpoint/releases/download/v0.1.0/sse-osx.dmg"
@@ -161,5 +162,24 @@ describe('release-parser', function() {
 		});
 		var result = releaseParser.parse(data);
 		expect(result.osx).to.equal("https://github.com/tatgean/skygear-squirrel-endpoint/releases/download/v0.1.0/sse-osx.dmg");
+	})
+
+	it ('parse() win assets file extension priority', function() {
+		var data = getResFromGitHubApi();
+		data.assets.length = 0;
+		data.assets.push({
+			"name": "sse-win.exe",
+			"browser_download_url": "https://github.com/tatgean/skygear-squirrel-endpoint/releases/download/v0.1.0/sse-win.exe"
+		})
+		data.assets.push({
+			"name": "sse-win.nupkg",
+			"browser_download_url": "https://github.com/tatgean/skygear-squirrel-endpoint/releases/download/v0.1.0/sse-win.nupkg"
+		});
+		data.assets.push({
+			"name": "sse-win.zip",
+			"browser_download_url": "https://github.com/tatgean/skygear-squirrel-endpoint/releases/download/v0.1.0/sse-win.zip"
+		});
+		var result = releaseParser.parse(data);
+		expect(result.win).to.equal("https://github.com/tatgean/skygear-squirrel-endpoint/releases/download/v0.1.0/sse-win.exe");
 	})
 })
