@@ -14,15 +14,21 @@ GitHubRepo.prototype.fetchReleases = function() {
 	return rp({
 		uri:  uri,
 		headers: {
-			'User-Agent': 'skygear-squirrel-endpoint'
+			'User-Agent': 'skygear-squirrel-endpoint',
+			'If-None-Match': this._etag
 		},
 		resolveWithFullResponse: true,
+		simple: false,
 		json : true
 	}).then(resp => {
-		this._etag = resp.headers['etag'];
-		this._respCache = resp.body;
-		return resp.body;
-	})
+		if (resp.statusCode === 200) {
+			this._etag = resp.headers['etag'];
+			this._respCache = resp.body;
+			return resp.body;
+		} else if (resp.statusCode === 304) {
+			return this._respCache;
+		}
+	});
 }
 
 module.exports = GitHubRepo;

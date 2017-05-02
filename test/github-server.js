@@ -86,4 +86,21 @@ describe('github-server', function() {
 		})
 	})
 
+	it ('fetchReleases() response with cache if 304 is received', function() {
+		server.on({
+			method: 'GET',
+			path: '/repos/some-user/some-repo/releases',
+			reply: {
+				status:  304
+			}
+		});
+		var host = 'http://localhost:9000/';
+		var repoUrl = 'some-user/some-repo'
+		var accessToken = null;
+		var githubRepo = new GitHubRepo(host, repoUrl, accessToken);
+		githubRepo._respCache = 'cached-data';
+		return githubRepo.fetchReleases().then(releases => {
+			expect(releases).to.equal('cached-data');
+		});
+	})
 });
