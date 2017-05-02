@@ -11,15 +11,17 @@ function GitHubRepo(host, repoUrl, accessToken) {
 
 GitHubRepo.prototype.fetchReleases = function() {
 	var uri = this.host + 'repos/' + this.repoPath + '/releases';
-	console.log(uri);
 	return rp({
 		uri:  uri,
 		headers: {
-        'User-Agent': 'skygear-squirrel-endpoint'
-    },
-    json : true
-  }).then(function(result) {
-		return result;
+			'User-Agent': 'skygear-squirrel-endpoint'
+		},
+		resolveWithFullResponse: true,
+		json : true
+	}).then(resp => {
+		this._etag = resp.headers['etag'];
+		this._respCache = resp.body;
+		return resp.body;
 	})
 }
 
