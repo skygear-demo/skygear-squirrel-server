@@ -136,7 +136,7 @@ describe('release-parser', function() {
 		var data = getResFromGitHubApi();
 		data.tag_name = "a.b.c";
 		expect(releaseParser.parse.bind(releaseParser, data))
-			.to.throw(`Invalid version number - ${data.tag_name}. Your version number must follow SemVer.`);
+		.to.throw(`Invalid version number - ${data.tag_name}. Your version number must follow SemVer.`);
 	})
 
 	it('parse() no asset for specific version', function() {
@@ -147,5 +147,19 @@ describe('release-parser', function() {
 			version: '0.1.0',
 			osx: 'https://github.com/tatgean/skygear-squirrel-endpoint/releases/download/v0.1.0/sse-osx.txt'
 		})
+	})
+
+	it ('parse() osx assets file extension priority', function() {
+		var data = getResFromGitHubApi();
+		data.assets.push({
+			"name": "sse-osx.dmg",
+			"browser_download_url": "https://github.com/tatgean/skygear-squirrel-endpoint/releases/download/v0.1.0/sse-osx.dmg"
+		})
+		data.assets.push({
+			"name": "sse-osx.zip",
+			"browser_download_url": "https://github.com/tatgean/skygear-squirrel-endpoint/releases/download/v0.1.0/sse-osx.zip"
+		});
+		var result = releaseParser.parse(data);
+		expect(result.osx).to.equal("https://github.com/tatgean/skygear-squirrel-endpoint/releases/download/v0.1.0/sse-osx.dmg");
 	})
 })

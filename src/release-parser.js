@@ -1,6 +1,9 @@
 'use strict';
 
 var semver = require('semver');
+var path = require('path');
+
+var osxExtPriority = ['.zip', '.dmg'];
 
 exports.parse = function(data) {
 	var result = {};
@@ -9,7 +12,9 @@ exports.parse = function(data) {
 	result.version = semver.clean(data.tag_name);
 	for (var k in data.assets) {
 		var a = data.assets[k];
-		if (result.osx === undefined && /osx/.test(a.name))	//macos
+		var newExt = path.extname(a.name);
+		var oldOsxExt = result.osx ? path.extname(result.osx) : null;
+		if (/osx/.test(a.name) && osxExtPriority.indexOf(newExt) >= osxExtPriority.indexOf(oldOsxExt))	//macos
 			result.osx = a.browser_download_url;
 		if (result.win === undefined && /win/.test(a.name)) //win
 			result.win = a.browser_download_url;
