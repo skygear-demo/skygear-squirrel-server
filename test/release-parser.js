@@ -138,4 +138,14 @@ describe('release-parser', function() {
 		expect(releaseParser.parse.bind(releaseParser, data))
 			.to.throw(`Invalid version number - ${data.tag_name}. Your version number must follow SemVer.`);
 	})
+
+	it('parse() no asset for specific version', function() {
+		var data = getResFromGitHubApi();
+		delete data.assets[1];		//remove win asset
+		var result = releaseParser.parse(data);
+		expect(result).to.deep.equal({
+			version: '0.1.0',
+			osx: 'https://github.com/tatgean/skygear-squirrel-endpoint/releases/download/v0.1.0/sse-osx.txt'
+		})
+	})
 })
