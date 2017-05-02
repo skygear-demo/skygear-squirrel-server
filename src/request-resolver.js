@@ -16,6 +16,8 @@ exports.resolve = function(githubRepo, version, platform) {
 		for (var i = 0; i < releases.length; i++) {
 			try {
 				latestRelease = releaseParser.parse(releases[i]);
+				if (latestRelease[platform] === undefined)	//use old version if no assets available for the platform
+					continue;
 				break;
 			} catch(e) {
 				if (e.message.startsWith('Invalid version number - '))
