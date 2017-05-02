@@ -3,13 +3,15 @@
 var rp = require('request-promise');
 var url = require('url');
 
-function GitHubRepo(repoUrl, accessToken) {
+function GitHubRepo(host, repoUrl, accessToken) {
+	this.host = host;
 	this.repoPath = url.parse(repoUrl).pathname.replace(/^\//, '').replace(/\/$/, '');
 	this.accessToken = accessToken;
 }
 
 GitHubRepo.prototype.fetchReleases = function() {
-	var uri ='https://api.github.com/repos/' + this.repoPath + '/releases';
+	var uri = this.host + 'repos/' + this.repoPath + '/releases';
+	console.log(uri);
 	return rp({
 		uri:  uri,
 		headers: {
