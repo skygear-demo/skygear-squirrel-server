@@ -71,6 +71,38 @@ function getResFromGitHubApi() {
 			"created_at": "2017-05-02T04:15:45Z",
 			"updated_at": "2017-05-02T04:15:47Z",
 			"browser_download_url": "https://github.com/tatgean/skygear-squirrel-endpoint/releases/download/v0.1.0/sse-osx.txt"
+		},
+		{
+			"url": "https://api.github.com/repos/tatgean/skygear-squirrel-endpoint/releases/assets/3780501",
+			"id": 3780501,
+			"name": "sse-win.txt",
+			"label": null,
+			"uploader": {
+				"login": "tatgean",
+				"id": 20782284,
+				"avatar_url": "https://avatars0.githubusercontent.com/u/20782284?v=3",
+				"gravatar_id": "",
+				"url": "https://api.github.com/users/tatgean",
+				"html_url": "https://github.com/tatgean",
+				"followers_url": "https://api.github.com/users/tatgean/followers",
+				"following_url": "https://api.github.com/users/tatgean/following{/other_user}",
+				"gists_url": "https://api.github.com/users/tatgean/gists{/gist_id}",
+				"starred_url": "https://api.github.com/users/tatgean/starred{/owner}{/repo}",
+				"subscriptions_url": "https://api.github.com/users/tatgean/subscriptions",
+				"organizations_url": "https://api.github.com/users/tatgean/orgs",
+				"repos_url": "https://api.github.com/users/tatgean/repos",
+				"events_url": "https://api.github.com/users/tatgean/events{/privacy}",
+				"received_events_url": "https://api.github.com/users/tatgean/received_events",
+				"type": "User",
+				"site_admin": false
+			},
+			"content_type": "text/plain",
+			"state": "uploaded",
+			"size": 3,
+			"download_count": 0,
+			"created_at": "2017-05-02T04:15:45Z",
+			"updated_at": "2017-05-02T04:15:47Z",
+			"browser_download_url": "https://github.com/tatgean/skygear-squirrel-endpoint/releases/download/v0.1.0/sse-win.txt"
 		}
 		],
 		"tarball_url": "https://api.github.com/repos/tatgean/skygear-squirrel-endpoint/tarball/v0.1.0",
@@ -84,7 +116,8 @@ describe('release-parser', function() {
 		var result = releaseParser.parse(getResFromGitHubApi());
 		expect(result).to.deep.equal({
 			version: '0.1.0',
-			osx: 'https://github.com/tatgean/skygear-squirrel-endpoint/releases/download/v0.1.0/sse-osx.txt'
+			osx: 'https://github.com/tatgean/skygear-squirrel-endpoint/releases/download/v0.1.0/sse-osx.txt',
+			win: 'https://github.com/tatgean/skygear-squirrel-endpoint/releases/download/v0.1.0/sse-win.txt'
 		})
 	})
 
@@ -94,7 +127,8 @@ describe('release-parser', function() {
 		var result = releaseParser.parse(data);
 		expect(result).to.deep.equal({
 			version: '0.1.0',
-			osx: 'https://github.com/tatgean/skygear-squirrel-endpoint/releases/download/v0.1.0/sse-osx.txt'
+			osx: 'https://github.com/tatgean/skygear-squirrel-endpoint/releases/download/v0.1.0/sse-osx.txt',
+			win: 'https://github.com/tatgean/skygear-squirrel-endpoint/releases/download/v0.1.0/sse-win.txt'
 		})
 	})
 

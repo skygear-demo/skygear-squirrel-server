@@ -9,8 +9,10 @@ exports.parse = function(data) {
 	result.version = semver.clean(data.tag_name);
 	for (var k in data.assets) {
 		var a = data.assets[k];
-		if (/osx/.test(a.name))	//macos
+		if (result.osx === undefined && /osx/.test(a.name))	//macos
 			result.osx = a.browser_download_url;
+		if (result.win === undefined && /win/.test(a.name)) //win
+			result.win = a.browser_download_url;
 	}
 	return result;
 }
