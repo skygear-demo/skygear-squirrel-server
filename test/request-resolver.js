@@ -160,29 +160,47 @@ describe('request-resolver', function() {
 					prerelease: false,
 					assets: [
 						//no assets for osx platform
-					]
-				},
-				{
-					tag_name: 'v1.0.0',
-					prerelease: false,
-					assets: [
+						{
+							name: 'win.exe',
+							browser_download_url: 'http://url-to-assets/v2.0.0/win.exe'
+						}
+						]
+					},
 					{
-						name: 'osx.dmg',
-						browser_download_url: 'http://url-to-assets/v1.0.0/osx.dmg',
-					}
-					]
-				},
-				])
+						tag_name: 'v1.0.0',
+						prerelease: false,
+						assets: [
+						{
+							name: 'osx.dmg',
+							browser_download_url: 'http://url-to-assets/v1.0.0/osx.dmg',
+						},
+						{
+							name: 'win.exe',
+							browser_download_url: 'http://url-to-assets/v1.0.0/win.exe'
+						}
+						]
+					},
+					])
 			}
 		});
 		var githubRepo = new GitHubRepo('http://localhost:9000/', 'some-user/some-repo', null);
-		return requestResolver.resolve(githubRepo, '0.1.0', 'osx').then(result => {
-			expect(result).to.deep.equal({
-				statusCode: 200,
-				body: {
-					url: 'http://url-to-assets/v1.0.0/osx.dmg'
-				}
+		return Promise.all([
+			requestResolver.resolve(githubRepo, '0.1.0', 'osx').then(result => {
+				expect(result).to.deep.equal({
+					statusCode: 200,
+					body: {
+						url: 'http://url-to-assets/v1.0.0/osx.dmg'
+					}
+				})
+			}),
+			requestResolver.resolve(githubRepo, '0.1.0', 'win').then(result => {
+				expect(result).to.deep.equal({
+					statusCode: 200,
+					body: {
+						url: 'http://url-to-assets/v2.0.0/win.exe'
+					}
+				})
 			})
-		})
+			])
 	})
 })
