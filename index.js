@@ -1,7 +1,7 @@
 'use strict';
 
 const skygearCloud = require('skygear/cloud');
-const SkygearResponse = require('skygear/lib/cloud/transport/common.js').SkygearResponse;
+const SkygearResponse = skygearCloud.SkygearResponse;
 const requestResolver = require('./request-resolver');
 const GitHubRepo = require('./GitHubRepo');
 const githubRepo = new GitHubRepo('https://api.github.com/',
