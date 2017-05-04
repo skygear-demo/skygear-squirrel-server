@@ -116,6 +116,7 @@ describe('release-parser', function() {
 		var result = releaseParser.parse(getResFromGitHubApi());
 		expect(result).to.deep.equal({
 			version: '0.1.0',
+			prerelease: false,
 			osx: 'https://github.com/tatgean/skygear-squirrel-endpoint/releases/download/v0.1.0/sse-osx.txt',
 			win: 'https://github.com/tatgean/skygear-squirrel-endpoint/releases/download/v0.1.0/sse-win.txt'
 		})
@@ -127,6 +128,7 @@ describe('release-parser', function() {
 		var result = releaseParser.parse(data);
 		expect(result).to.deep.equal({
 			version: '0.1.0',
+			prerelease: false,
 			osx: 'https://github.com/tatgean/skygear-squirrel-endpoint/releases/download/v0.1.0/sse-osx.txt',
 			win: 'https://github.com/tatgean/skygear-squirrel-endpoint/releases/download/v0.1.0/sse-win.txt'
 		})
@@ -145,6 +147,7 @@ describe('release-parser', function() {
 		var result = releaseParser.parse(data);
 		expect(result).to.deep.equal({
 			version: '0.1.0',
+			prerelease: false,
 			osx: 'https://github.com/tatgean/skygear-squirrel-endpoint/releases/download/v0.1.0/sse-osx.txt'
 		})
 	})
