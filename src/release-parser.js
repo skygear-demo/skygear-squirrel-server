@@ -11,6 +11,7 @@ exports.parse = function(data) {
 	if (semver.valid(data.tag_name) === null)
 		throw new Error(`Invalid version number - ${data.tag_name}. Your version number must follow SemVer.`);
 	result.version = semver.clean(data.tag_name);
+	result.prerelease = data.prerelease;
 	for (var k in data.assets) {
 		var a = data.assets[k];
 		var newExt = path.extname(a.name);

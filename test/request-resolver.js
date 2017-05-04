@@ -227,4 +227,31 @@ describe('request-resolver', function() {
 			})
 		})
 	})
+
+	it('resolve() preleases should not be served', () => {
+		server.on({
+			method: 'GET',
+			path: '/repos/some-user/some-repo/releases',
+			reply: {
+				status:  200,
+				headers: { "content-type": "application/json" },
+				body:    JSON.stringify([
+				{
+					tag_name: 'v1.0.0',
+					prerelease: true,
+					assets: [{
+						name: 'osx.dmg',
+						browser_download_url: 'http://url-to-assets/v1.0.0/osx.dmg',
+					}]
+				}
+				])
+			}
+		});
+		var githubRepo = new GitHubRepo('http://localhost:9000/', 'some-user/some-repo', null);
+		return requestResolver.resolve(githubRepo, '0.1.0', 'osx').then(result => {
+			expect(result).to.deep.equal({
+				statusCode: 204
+			})
+		})
+	})
 })
