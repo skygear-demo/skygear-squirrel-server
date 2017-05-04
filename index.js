@@ -2,8 +2,8 @@
 
 const skygearCloud = require('skygear/cloud');
 const SkygearResponse = skygearCloud.SkygearResponse;
-const requestResolver = require('./request-resolver');
-const GitHubRepo = require('./GitHubRepo');
+const requestResolver = require('./src/request-resolver');
+const GitHubRepo = require('./src/GitHubRepo');
 const githubRepo = new GitHubRepo('https://api.github.com/',
 	process.env.GITHUB_REPO, 
 	process.env.GITHUB_ACCESS_TOKEN
