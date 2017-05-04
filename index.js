@@ -20,3 +20,10 @@ skygearCloud.handler('update', function (req, options) {
 	method: ['GET', 'POST'],
 	userRequired: false
 })
+
+skygearCloud.handler('getInfo', function(req, options) {
+	return 'Server running'
+}, {
+	method: ['GET', 'POST'],
+	userRequired: false
+})

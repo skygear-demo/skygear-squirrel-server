@@ -2,7 +2,7 @@
   "name": "skygear-squirrel-endpoint",
   "version": "0.1.0",
   "description": "A squirrel endpoint running on skygear cloud code",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "mocha"
   },
