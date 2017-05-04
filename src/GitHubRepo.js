@@ -11,6 +11,8 @@ function GitHubRepo(host, repoUrl, accessToken) {
 
 GitHubRepo.prototype.fetchReleases = function() {
 	var uri = this.host + 'repos/' + this.repoPath + '/releases';
+	if (this.accessToken)
+		uri += "?access_token=" + this.accessToken;
 	return rp({
 		uri:  uri,
 		headers: {
@@ -24,8 +26,10 @@ GitHubRepo.prototype.fetchReleases = function() {
 		if (resp.statusCode === 200) {
 			this._etag = resp.headers['etag'];
 			this._respCache = resp.body;
+			console.log('Serving with new content');
 			return resp.body;
 		} else if (resp.statusCode === 304) {
+			console.log('Serving with cahced content');
 			return this._respCache;
 		}
 	});
