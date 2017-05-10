@@ -24,7 +24,7 @@ githubRepo.fetchReleases().then(function() {
 		userRequired: false
 	})
 }).catch(function() {
-	serverStatus = 'Connection failed. Check your environment variables in Skygear portal please.'
+	serverStatus = 'Connection with GitHub repo failed. Check your environment variables(GITHUB_REPO and GITHUB_ACCESS_TOKEN) in Skygear portal.'
 })
 
 skygearCloud.handler('getStatus', function(req, options) {
