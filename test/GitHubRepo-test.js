@@ -105,4 +105,34 @@ describe('github-server', function() {
 			expect(releases).to.equal('cached-data');
 		});
 	})
+
+	it('validate() invalid', function() {
+		server.on({
+			method: 'GET',
+			path: '/repos/an-invalid-repo/releases',
+			reply: {
+				status:  404
+			}
+		});
+		var host = 'http://localhost:9000/';
+		var repoUrl = 'an-invalid-repo';
+		var accessToken = null;
+		var githubRepo = new GitHubRepo(host, repoUrl, accessToken);
+		return expect(githubRepo.validate()).to.be.rejected;
+	})
+
+	it('validate() valid', function() {
+		server.on({
+			method: 'GET',
+			path: '/repos/a-valid-repo/releases',
+			reply: {
+				status:  200
+			}
+		});
+		var host = 'http://localhost:9000/';
+		var repoUrl = 'a-valid-repo';
+		var accessToken = null;
+		var githubRepo = new GitHubRepo(host, repoUrl, accessToken);
+		return expect(githubRepo.validate()).to.be.fulfilled;
+	})
 });
