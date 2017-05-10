@@ -7,12 +7,13 @@ function GitHubRepo(host, repoUrl, accessToken) {
 	this.host = host;
 	this.repoPath = url.parse(repoUrl).pathname.replace(/^\//, '').replace(/\/$/, '');
 	this.accessToken = accessToken;
+	this.uri = this.host + 'repos/' + this.repoPath + '/releases';
+	if (this.accessToken)
+		this.uri += "?access_token=" + this.accessToken;
 }
 
 GitHubRepo.prototype.fetchReleases = function() {
-	var uri = this.host + 'repos/' + this.repoPath + '/releases';
-	if (this.accessToken)
-		uri += "?access_token=" + this.accessToken;
+	var uri = this.uri;
 	return rp({
 		uri:  uri,
 		headers: {
@@ -34,5 +35,19 @@ GitHubRepo.prototype.fetchReleases = function() {
 		}
 	});
 }
+
+GitHubRepo.prototype.validate = function() {
+	return rp({
+		uri:  this.uri,
+		headers: {
+			'User-Agent': 'skygear-squirrel-endpoint',
+			'If-None-Match': this._etag
+		},
+		resolveWithFullResponse: true,
+		json : true
+	});
+}
+
+GitHubRepo.prototype.fetchReleases
 
 module.exports = GitHubRepo;
