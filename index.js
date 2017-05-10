@@ -7,22 +7,28 @@ const GitHubRepo = require('./src/GitHubRepo');
 const githubRepo = new GitHubRepo('https://api.github.com/',
 	process.env.GITHUB_REPO, 
 	process.env.GITHUB_ACCESS_TOKEN
-);
+	);
+let serverStatus = 'Initializing....'
 
-skygearCloud.handler('update', function (req, options) {
-	return requestResolver.resolve(githubRepo, req.query.version, req.query.platform).then(result => {
-		return new SkygearResponse({
-			statusCode: result.statusCode,
-			body: JSON.stringify(result.body)
+githubRepo.fetchRelease().then(function() {
+	serverStatus = 'GitHub repo connected!'
+	skygearCloud.handler('update', function (req, options) {
+		return requestResolver.resolve(githubRepo, req.query.version, req.query.platform).then(result => {
+			return new SkygearResponse({
+				statusCode: result.statusCode,
+				body: JSON.stringify(result.body)
+			})
 		})
+	}, {
+		method: ['GET', 'POST'],
+		userRequired: false
 	})
-}, {
-	method: ['GET', 'POST'],
-	userRequired: false
+}).catch(function() {
+	serverStatus = 'Connection failed. Check your environment variables in Skygear portal please.'
 })
 
-skygearCloud.handler('getInfo', function(req, options) {
-	return 'Server running'
+skygearCloud.handler('getStatus', function(req, options) {
+	return 'Server Status: ' + serverStatus;
 }, {
 	method: ['GET', 'POST'],
 	userRequired: false

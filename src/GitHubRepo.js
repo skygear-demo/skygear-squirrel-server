@@ -32,6 +32,8 @@ GitHubRepo.prototype.fetchReleases = function() {
 		} else if (resp.statusCode === 304) {
 			console.log('Serving with cahced content');
 			return this._respCache;
+		} else {
+			throw new Error('Connection failed.');
 		}
 	});
 }
