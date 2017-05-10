@@ -10,7 +10,7 @@ const githubRepo = new GitHubRepo('https://api.github.com/',
 	);
 let serverStatus = 'Initializing....'
 
-githubRepo.fetchRelease().then(function() {
+githubRepo.fetchReleases().then(function() {
 	serverStatus = 'GitHub repo connected!'
 	skygearCloud.handler('update', function (req, options) {
 		return requestResolver.resolve(githubRepo, req.query.version, req.query.platform).then(result => {
