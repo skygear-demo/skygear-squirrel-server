@@ -17,7 +17,7 @@ A squirrel endpoint running on [Skygear Cloud Code](https://docs.skygear.io/guid
 
 5. Follow [this guide](https://docs.skygear.io/guides/cloud-function/intro-and-deployment/python/#cloud-functions-deployment) to deploy the code to Skygear Cloud Code.
 
-6. Go to `https://your-skygear-cloud-url/getInfo` to verify if the deployment is successful.
+6. Go to `https://your-skygear-cloud-url/getStatus` to verify if the deployment is successful.
 
 # Releasing your updates
 1. Your should release your updates to the `GITHUB_REPO` GitHub repository you provided above.
@@ -39,6 +39,16 @@ A squirrel endpoint running on [Skygear Cloud Code](https://docs.skygear.io/guid
     ```
 * if no updates available, return with status code `204`
 
+`/getStatus`:
+* if the server is in initializing the connection with GitHub, responses with text:
+
+  `Server status: Initializing`
+* if the server is connected to the GitHub repo successfully, responses wih text:
+
+  `Server status: GitHub Repo connected!`
+* if the server failed to connect to the GitHub repo, responses with text:
+
+  `Server status: Connection with GitHub repo failed. Check your environment variables(GITHUB_REPO and GITHUB_ACCESS_TOKEN) in Skygear portal.`
 # Update resolve strategy
 1. If the latest version > current version, return the latest version.
    > Example:
