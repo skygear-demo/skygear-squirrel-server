@@ -30,7 +30,7 @@ A squirrel endpoint running on [Skygear Cloud Code](https://docs.skygear.io/guid
   
 
 # Endpoints
-`/update/{platform}/{current-version}`:
+`/update?platform={platform}&version={current-version}`:
 * if update available, return with status code `200`, and 
     ```
     {
@@ -47,7 +47,7 @@ A squirrel endpoint running on [Skygear Cloud Code](https://docs.skygear.io/guid
    >
    > v1.0.0 - myapp-osx.zip
    > ###### Request:
-   > `/update/osx/1.0.0`: 
+   > `/update?platform=osx&version=1.0.0`: 
    > ###### Response
    > `200 OK` - `{"url": "https://your-github-repo-url/v1.5.0/myapp-osx.zip"}`
 2. If the latest version <= current version, return 204 No Content.
@@ -57,7 +57,7 @@ A squirrel endpoint running on [Skygear Cloud Code](https://docs.skygear.io/guid
    >
    > v1.0.0 - `myapp-osx.zip`, `myapp-win.exe`
    > ###### Request:
-   > `/update/osx/1.5.0`: 
+   > `/update?platform=osx&version=1.5.0`: 
    > ###### Response
    > `204 No Content`
 3. Pre-releases are ignored.
@@ -69,7 +69,7 @@ A squirrel endpoint running on [Skygear Cloud Code](https://docs.skygear.io/guid
    >
    > v1.0.0 - `myapp-osx.zip`, `myapp-win.exe`
    > ###### Request:
-   > `/update/osx/1.0.0`: 
+   > `/update?platform=osx&version=1.0.0`: 
    > ###### Response
    > `200 OK` - `{"url": "https://your-github-repo-url/v1.5.0/myapp-osx.zip"}`
 4. Releases not following [SemVer](http://semver.org) as their tag are ignored.
@@ -81,7 +81,7 @@ A squirrel endpoint running on [Skygear Cloud Code](https://docs.skygear.io/guid
    >
    > v1.0.0 - `myapp-osx.zip`, `myapp-win.exe`
    > ###### Request:
-   > `/update/osx/1.0.0`: 
+   > `/update?platform=osx&version=1.0.0`: 
    > ###### Response
    > `200 OK` - `{"url": "https://your-github-repo-url/v1.5.0/myapp-osx.zip"}`
 5. Releases without assets for target platform are ignored.
@@ -93,6 +93,6 @@ A squirrel endpoint running on [Skygear Cloud Code](https://docs.skygear.io/guid
    >
    > v1.0.0 - `myapp-osx.zip`, `myapp-win.exe`
    > ###### Request:
-   > `/update/osx/1.0.0`: 
+   > `/update?platform=osx&version=1.0.0`: 
    > ###### Response
    > `200 OK` - `{"url": "https://your-github-repo-url/v1.5.0/myapp-osx.zip"}`
