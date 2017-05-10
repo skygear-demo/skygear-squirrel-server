@@ -6,7 +6,7 @@ const expect = chai.expect;
 const GitHubRepo = require('../src/GitHubRepo');
 const requestResolver = require('../src/request-resolver');
 
-describe('Integration test', () => {
+describe.skip('Integration test', () => {
 	it('all components should work together', () => {
 		const gitHubRepo = new GitHubRepo('https://api.github.com/',
 			'https://github.com/tatgean/skygear-squirrel-endpoint-test', 
