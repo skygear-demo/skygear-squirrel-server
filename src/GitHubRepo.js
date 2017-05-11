@@ -15,12 +15,14 @@ function GitHubRepo(host, repoUrl, accessToken) {
 
 GitHubRepo.prototype.fetchReleases = function () {
     var uri = this.uri;
+    let qs = this.accessToken ? {access_token: this.accessToken} : {};
     return rp({
         uri: uri,
         headers: {
             'User-Agent': 'skygear-squirrel-endpoint',
             'If-None-Match': this._etag
         },
+        qs: qs,
         resolveWithFullResponse: true,
         simple: false,
         json: true
