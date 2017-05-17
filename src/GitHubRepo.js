@@ -54,7 +54,8 @@ GitHubRepo.prototype.validate = function () {
 }
 
 GitHubRepo.prototype.fetchAsset = function (id) {
-    console.log('!!!!!!!!!b');
+    console.log(this.uri + '/assets/' + id);
+    console.log(this.accessToken);
     let cache = this._cachedAssets[id];
     let headers = {
         'User-Agent': 'skygear-squirrel-endpoint',

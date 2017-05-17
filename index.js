@@ -30,7 +30,6 @@ try {
 		});
 		skygearCloud.handler(process.env.SQUIRREL_DOWNLOADS_PATH, function(req, options) {
 			return downloadResolver.resolve(req.query.platform, req.query.version).then(result => {
-				console.log('!!!!!!!!!!!!!!!c');
 				return new SkygearResponse({
 					statusCode: 200,
                     headers: {
