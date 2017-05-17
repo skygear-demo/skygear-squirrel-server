@@ -54,6 +54,7 @@ GitHubRepo.prototype.validate = function () {
 }
 
 GitHubRepo.prototype.fetchAsset = function (id) {
+    console.log('!!!!!!!!!b');
     let cache = this._cachedAssets[id];
     let headers = {
         'User-Agent': 'skygear-squirrel-endpoint',
@@ -70,6 +71,7 @@ GitHubRepo.prototype.fetchAsset = function (id) {
         resolveWithFullResponse: true,
         simple: false,
     }).then(resp => {
+        console.log('!!!!!!!!!!!!b2')
         if (resp.statusCode === 200) {
             this._cachedAssets[id] = {
                 etag: resp.headers.etag,
