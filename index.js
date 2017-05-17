@@ -3,7 +3,7 @@
 const skygearCloud = require('skygear/cloud');
 const SkygearResponse = skygearCloud.SkygearResponse;
 const GitHubRepo = require('./src/GitHubRepo');
-process.env.SQUIRREL_DOWNLOADS_PATH = '/downloads';
+process.env.SQUIRREL_DOWNLOADS_PATH = 'downloads';
 
 let serverStatus = 'Initializing....';
 try {
