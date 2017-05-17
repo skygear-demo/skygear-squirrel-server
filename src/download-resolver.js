@@ -18,6 +18,7 @@ DownloadResolver.prototype.resolve = function(platform, version) {
                 return this._githubRepo.fetchAsset(r[platform].id)
             }
         }
+        throw new Error('Asset not found');
     });
 };
 
