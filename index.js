@@ -33,8 +33,8 @@ try {
 				return new SkygearResponse({
 					statusCode: 200,
                     headers: {
-                        'Content-Type': 'application/octet-stream',
-                        'Content-Disposition': 'Content-Disposition: attachment'
+                        'content-type': 'application/octet-stream',
+                        'content-disposition': 'attachment'
                     },
 					body: result
 				})
