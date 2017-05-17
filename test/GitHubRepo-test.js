@@ -45,6 +45,28 @@ describe('github-server', function() {
 		return testFetchRelease('https://github.com/some-user/some-repo')
 	})
 
+	it ('fetchReleases() private repo', () => {
+        server.on({
+            method: 'GET',
+            path: '/repos/some-user/some-repo/releases',
+            reply: {
+                status: req => (
+					req.query.access_token === 'some-token' ? 200 : 404
+				),
+                body: req => (
+                    req.query.access_token === 'some-token' ? 'some-data' : 'Not found'
+				)
+            }
+        });
+        const host = 'http://localhost:9000/';
+        const repoUrl = 'some-user/some-repo';
+        const accessToken = 'some-token';
+        const githubRepo = new GitHubRepo(host, repoUrl, accessToken);
+        return githubRepo.fetchReleases().then(releases => {
+            expect(releases).to.equal('some-data');
+        })
+	});
+
 	it ('fetchRelease() url with /', function() {
 		return testFetchRelease('https://github.com/some-user/some-repo/')
 	})
@@ -134,5 +156,76 @@ describe('github-server', function() {
 		var accessToken = null;
 		var githubRepo = new GitHubRepo(host, repoUrl, accessToken);
 		return expect(githubRepo.validate()).to.be.fulfilled;
+	})
+
+    it('fetchAsset()', () => {
+        const assetId = 1;
+        server.on({
+            method: 'GET',
+            path: '/repos/some-user/some-repo/releases/assets/' + assetId,
+            reply: {
+                status: 200,
+                body: 'asset-data'
+            }
+        });
+        const host = 'http://localhost:9000/';
+        const repoUrl = 'some-user/some-repo';
+        const accessToken = null;
+        const githubRepo = new GitHubRepo(host, repoUrl, accessToken);
+        return githubRepo.fetchAsset(assetId).then(resp => {
+            expect(resp).to.equal('asset-data');
+        });
+    });
+
+	it('fetchAssets() with cached data', () => {
+        const assetId = 1;
+        server.on({
+            method: 'GET',
+            path: '/repos/some-user/some-repo/releases/assets/' + assetId,
+            reply: {
+            	status: req => {
+            		return req.headers['if-none-match'] === 'some-hash' ? 304: 200;
+				},
+				headers: {
+            		etag: 'some-hash'
+				},
+				body: req => {
+            		return req.headers['if-none-match'] === 'some-hash' ? 'not this': 'asset-data'
+				}
+
+			}
+        });
+        const host = 'http://localhost:9000/';
+        const repoUrl = 'some-user/some-repo';
+        const accessToken = null;
+        const githubRepo = new GitHubRepo(host, repoUrl, accessToken);
+        return githubRepo.fetchAsset(assetId).then(() =>
+        	githubRepo.fetchAsset(assetId).then(resp => {
+        		expect(resp).to.equal('asset-data');
+            })
+        );
+	});
+
+	it('fetchAsset() private repo', () =>{
+        const assetId = 1;
+        server.on({
+            method: 'GET',
+            path: '/repos/some-user/some-repo/releases/assets/' + assetId,
+            reply: {
+                status: req => (
+                	req.query.access_token === 'some-token' ? 200 : 404
+				),
+                body: req => (
+                	req.query.access_token === 'some-token' ? 'asset-data' : 'Not found'
+				)
+            }
+        });
+        const host = 'http://localhost:9000/';
+        const repoUrl = 'some-user/some-repo';
+        const accessToken = 'some-token';
+        const githubRepo = new GitHubRepo(host, repoUrl, accessToken);
+        return githubRepo.fetchAsset(assetId).then(resp => {
+            expect(resp).to.equal('asset-data');
+        });
 	})
 });
