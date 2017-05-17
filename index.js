@@ -33,6 +33,10 @@ try {
 			return downloadResolver.resolve(req.query.platform, req.query.version).then(result => {
 				return new SkygearResponse({
 					statusCode: 200,
+                    headers: {
+                        'Content-Type': 'application/octet-stream',
+                        'Content-Disposition': 'Content-Disposition: attachment'
+                    },
 					body: result
 				})
 			}).catch(e => {
