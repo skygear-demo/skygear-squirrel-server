@@ -34,7 +34,7 @@ try {
 					statusCode: 200,
                     headers: {
                         'content-type': 'application/octet-stream',
-                        'content-disposition': 'attachment'
+                        'content-disposition': 'attachment; filename=abc.zip'
                     },
 					body: result
 				})
