@@ -31,7 +31,7 @@ exports.resolve = function(githubRepo, version, platform) {
 			return {
 				statusCode: 200,
 				body: {
-					url: latestRelease[platform]
+					url: `${process.env.SQUIRREL_HOST}/${process.env.SQUIRREL_DOWNLOADS_PATH}/${platform}/${latestRelease.version}`
 				}
 			}
 		} else {
