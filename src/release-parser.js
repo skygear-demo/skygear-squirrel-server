@@ -8,6 +8,8 @@ var winExtPriority = ['.zip', '.nupkg', '.exe'];
 
 exports.parse = function(data) {
 	var result = {};
+	if (data.draft)
+		return {draft: true};
 	if (semver.valid(data.tag_name) === null)
 		throw new Error(`Invalid version number - ${data.tag_name}. Your version number must follow SemVer.`);
 	result.version = semver.clean(data.tag_name);

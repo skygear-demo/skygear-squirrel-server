@@ -167,4 +167,41 @@ describe('download-resolver', () => {
         const resolver = new DownloadResolver(githubRepo);
         return expect(resolver.resolve('osx', '1.0.0')).to.be.rejectedWith('Asset not found');
     });
+
+    it('resolve() skip drafts', () => {
+        const assetId = 1;
+        server.on({
+            method: 'GET',
+            path: '/repos/some-user/some-repo/releases',
+            reply: {
+                status: 200,
+                body: JSON.stringify([
+                    {
+                        tag_name: 'v1.0.0',
+                        draft: true,
+                        assets: [
+                            {
+                                id: assetId,
+                                name: 'osx.zip'     // no osx version available
+                            }
+                        ]
+                    }
+                ])
+            }
+        });
+        server.on({
+            method: 'GET',
+            path: '/repos/some-user/some-repo/releases/assets/' + assetId,
+            reply: {
+                status: 200,
+                body: 'some-data'
+            }
+        });
+        const host = 'http://localhost:9000/';
+        const repoUrl = 'some-user/some-repo';
+        const accessToken = null;
+        const githubRepo = new GitHubRepo(host, repoUrl, accessToken);
+        const resolver = new DownloadResolver(githubRepo);
+        return expect(resolver.resolve('osx', '1.0.0')).to.be.rejectedWith('Asset not found');
+    });
 });

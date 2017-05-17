@@ -16,7 +16,7 @@ exports.resolve = function(githubRepo, version, platform) {
 		for (var i = 0; i < releases.length; i++) {
 			try {
 				latestRelease = releaseParser.parse(releases[i]);
-				if (latestRelease.prerelease || latestRelease[platform] === undefined)	{ //use old version if no assets available for the platform
+				if (latestRelease.draft || latestRelease.prerelease || latestRelease[platform] === undefined)	{ //use old version if no assets available for the platform
 					latestRelease = undefined;
 					continue;
 				}

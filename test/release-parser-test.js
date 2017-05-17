@@ -26,6 +26,7 @@ describe('release-parser', function () {
         expect(result).to.deep.equal({
             version: '0.1.0',
             prerelease: false,
+            draft: false,
             osx: {
                 id: 1,
                 name: 'osx.zip'
@@ -55,6 +56,7 @@ describe('release-parser', function () {
         expect(result).to.deep.equal({
             version: '0.1.0',
             prerelease: false,
+            draft: false,
             osx: {
                 id: 1,
                 name: 'osx.zip'
@@ -97,6 +99,7 @@ describe('release-parser', function () {
         expect(result).to.deep.equal({
             version: '0.1.0',
             prerelease: false,
+            draft: false,
             osx: {
                 id: 1,
                 name: 'osx.zip'
@@ -138,6 +141,45 @@ describe('release-parser', function () {
             ]
         });
         expect(result.win.id).to.equal(2);
+    })
+
+    it('parse() win assets file extension priority', function () {
+        var result = releaseParser.parse({
+            "tag_name": "0.1.0",
+            "prerelease": false,
+            "assets": [
+                {
+                    "id": 1,
+                    "name": "win.zip"
+                },
+                {
+                    "id": 2,
+                    "name": "win.exe"
+                },
+            ]
+        });
+        expect(result.win.id).to.equal(2);
+    })
+
+    it('parse() draft', function () {
+        var result = releaseParser.parse({
+            "tag_name": "no-matter-what",
+            "prerelease": false,
+            draft: true,
+            "assets": [
+                {
+                    "id": 1,
+                    "name": "win.zip"
+                },
+                {
+                    "id": 2,
+                    "name": "win.exe"
+                },
+            ]
+        });
+        expect(result).to.deep.equal({
+            draft: true
+        })
     })
 })
 

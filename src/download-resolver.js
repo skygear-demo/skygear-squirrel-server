@@ -13,6 +13,8 @@ DownloadResolver.prototype.resolve = function(platform, version) {
             throw new Error('Invalid platform - ' + platform);
         for (let i = 0; i < releases.length; i++) {
             let r = releaseParaser.parse(releases[i]);
+            if (r.draft)
+                continue;
             if (semver.eq(r.version, version) && r[platform]) {
                 // r[platform].id
                 return this._githubRepo.fetchAsset(r[platform].id)
