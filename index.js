@@ -17,6 +17,7 @@ try {
         const downloadResolver = new DownloadResolver(githubRepo);
 		serverStatus = 'GitHub repo connected!';
 		skygearCloud.handler('update', function (req, options) {
+            process.env.SQUIRREL_HOST = process.env.URL_PREFIX;
 			return requestResolver.resolve(githubRepo, req.query.version, req.query.platform).then(result => {
 				return new SkygearResponse({
 					statusCode: result.statusCode,
@@ -28,6 +29,7 @@ try {
 			userRequired: false
 		});
 		skygearCloud.handler(process.env.SQUIRREL_DOWNLOADS_PATH, function(req, options) {
+			process.env.SQUIRREL_HOST = process.env.URL_PREFIX;
 			return downloadResolver.resolve(req.query.platform, req.query.version).then(result => {
 				return new SkygearResponse({
 					statusCode: 200,
