@@ -14,7 +14,7 @@ describe.skip('Integration test', () => {
 	it('/:platform/:currentVersion', () => {
 		const gitHubRepo = new GitHubRepo('https://api.github.com/',
 			'https://github.com/tatgean/skygear-squirrel-endpoint-test',
-            'a4d21c9c7595353370ad55de6991b9cbb519c75f'
+			null
 		);
 		return requestResolver.resolve(gitHubRepo, '0.1.0', 'osx').then(result => {
 			expect(result).to.deep.equal({
@@ -29,7 +29,7 @@ describe.skip('Integration test', () => {
 	it('/downloads/:platform/:version', () => {
         const gitHubRepo = new GitHubRepo('https://api.github.com/',
             'https://github.com/tatgean/skygear-squirrel-endpoint-test',
-            'a4d21c9c7595353370ad55de6991b9cbb519c75f'
+			null
         );
         const downloadResolver = new DownloadResolver(gitHubRepo);
         return downloadResolver.resolve('osx', '1.0.0').then(result => {
