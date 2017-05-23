@@ -16,7 +16,7 @@ exports.resolve = function(githubRepo, version, platform) {
 		for (var i = 0; i < releases.length; i++) {
 			try {
 				latestRelease = releaseParser.parse(releases[i]);
-				if (latestRelease.draft || latestRelease.prerelease || latestRelease[platform] === undefined)	{ //use old version if no assets available for the platform
+				if (latestRelease.prerelease || latestRelease[platform] === undefined)	{ //use old version if no assets available for the platform
 					latestRelease = undefined;
 					continue;
 				}
@@ -31,7 +31,7 @@ exports.resolve = function(githubRepo, version, platform) {
 			return {
 				statusCode: 200,
 				body: {
-					url: `${process.env.SQUIRREL_HOST}/${process.env.SQUIRREL_DOWNLOADS_PATH}/${platform}/${latestRelease.version}`
+					url: latestRelease[platform]
 				}
 			}
 		} else {

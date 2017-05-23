@@ -15,12 +15,12 @@ var respData = [
 	prerelease: false,
 	assets: [
 	{
-		id: 1,
-		name: 'osx.zip'
+		name: 'osx.dmg',
+		browser_download_url: 'http://url-to-assets/v1.0.0/osx.dmg',
 	},
 	{
-		id: 2,
-		name: 'win.exe'
+		name: 'win.exe',
+		browser_download_url: 'http://url-to-assets/v1.0.0/win.exe'
 	}
 	]
 }
@@ -53,7 +53,7 @@ describe('request-resolver', function() {
 			expect(result).to.deep.equal({
 				statusCode: 200,
 				body: {
-					url: `${process.env.SQUIRREL_HOST}/${process.env.SQUIRREL_DOWNLOADS_PATH}/osx/1.0.0`
+					url: 'http://url-to-assets/v1.0.0/osx.dmg'
 				}
 			})
 		})
@@ -110,11 +110,11 @@ describe('request-resolver', function() {
 					prerelease: false,
 					assets: [
 					{
-						id: 1,
-						name: 'osx.dmg'
+						name: 'osx.dmg',
+						browser_download_url: 'http://url-to-assets/va.b.c/osx.dmg',
 					},
 					{
-						id: 2,
+						name: 'win.exe',
 						browser_download_url: 'http://url-to-assets/va.b.c/win.exe'
 					}
 					]
@@ -124,12 +124,12 @@ describe('request-resolver', function() {
 					prerelease: false,
 					assets: [
 					{
-						id: 1,
-						name: 'osx.dmg'
+						name: 'osx.dmg',
+						browser_download_url: 'http://url-to-assets/v1.0.0/osx.dmg',
 					},
 					{
-						id: 2,
-						name: 'win.exe'
+						name: 'win.exe',
+						browser_download_url: 'http://url-to-assets/v1.0.0/win.exe'
 					}
 					]
 				},
@@ -141,7 +141,7 @@ describe('request-resolver', function() {
 			expect(result).to.deep.equal({
 				statusCode: 200,
 				body: {
-					url: `${process.env.SQUIRREL_HOST}/${process.env.SQUIRREL_DOWNLOADS_PATH}/osx/1.0.0`
+					url: 'http://url-to-assets/v1.0.0/osx.dmg'
 				}
 			})
 		})
@@ -161,8 +161,8 @@ describe('request-resolver', function() {
 					assets: [
 						//no assets for osx platform
 						{
-							id: 1,
-							name: 'win.exe'
+							name: 'win.exe',
+							browser_download_url: 'http://url-to-assets/v2.0.0/win.exe'
 						}
 						]
 					},
@@ -171,12 +171,12 @@ describe('request-resolver', function() {
 						prerelease: false,
 						assets: [
 						{
-							id: 2,
-							name: 'osx.dmg'
+							name: 'osx.dmg',
+							browser_download_url: 'http://url-to-assets/v1.0.0/osx.dmg',
 						},
 						{
-							id: 1,
-							name: 'win.exe'
+							name: 'win.exe',
+							browser_download_url: 'http://url-to-assets/v1.0.0/win.exe'
 						}
 						]
 					},
@@ -189,7 +189,7 @@ describe('request-resolver', function() {
 				expect(result).to.deep.equal({
 					statusCode: 200,
 					body: {
-						url: `${process.env.SQUIRREL_HOST}/${process.env.SQUIRREL_DOWNLOADS_PATH}/osx/1.0.0`
+						url: 'http://url-to-assets/v1.0.0/osx.dmg'
 					}
 				})
 			}),
@@ -197,7 +197,7 @@ describe('request-resolver', function() {
 				expect(result).to.deep.equal({
 					statusCode: 200,
 					body: {
-						url: `${process.env.SQUIRREL_HOST}/${process.env.SQUIRREL_DOWNLOADS_PATH}/win/2.0.0`
+						url: 'http://url-to-assets/v2.0.0/win.exe'
 					}
 				})
 			})
@@ -240,8 +240,8 @@ describe('request-resolver', function() {
 					tag_name: 'v1.0.0',
 					prerelease: true,
 					assets: [{
-						id: 1,
-						name: 'osx.dmg'
+						name: 'osx.dmg',
+						browser_download_url: 'http://url-to-assets/v1.0.0/osx.dmg',
 					}]
 				}
 				])
@@ -254,32 +254,4 @@ describe('request-resolver', function() {
 			})
 		})
 	})
-
-    it('resolve() skip drafts', () => {
-        server.on({
-            method: 'GET',
-            path: '/repos/some-user/some-repo/releases',
-            reply: {
-                status:  200,
-                headers: { "content-type": "application/json" },
-                body:    JSON.stringify([
-                    {
-                        tag_name: 'v1.0.0',
-                        prerelease: false,
-                        draft: true,
-                        assets: [{
-                        	id: 1,
-                            name: 'osx.dmg'
-                        }]
-                    }
-                ])
-            }
-        });
-        var githubRepo = new GitHubRepo('http://localhost:9000/', 'some-user/some-repo', null);
-        return requestResolver.resolve(githubRepo, '0.1.0', 'osx').then(result => {
-            expect(result).to.deep.equal({
-                statusCode: 204
-            })
-        })
-    })
 })

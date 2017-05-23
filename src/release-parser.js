@@ -8,8 +8,6 @@ var winExtPriority = ['.zip', '.nupkg', '.exe'];
 
 exports.parse = function(data) {
 	var result = {};
-	if (data.draft)
-		return {draft: true};
 	if (semver.valid(data.tag_name) === null)
 		throw new Error(`Invalid version number - ${data.tag_name}. Your version number must follow SemVer.`);
 	result.version = semver.clean(data.tag_name);
@@ -17,18 +15,12 @@ exports.parse = function(data) {
 	for (var k in data.assets) {
 		var a = data.assets[k];
 		var newExt = path.extname(a.name);
-		var oldOsxExt = result.osx ? path.extname(result.osx.name) : null;
-		var oldWinExt = result.win ? path.extname(result.win.name) : null;
+		var oldOsxExt = result.osx ? path.extname(result.osx) : null;
+		var oldWinExt = result.win ? path.extname(result.win) : null;
 		if (/osx/.test(a.name) && osxExtPriority.indexOf(newExt) >= osxExtPriority.indexOf(oldOsxExt))	//macos
-			result.osx = {
-				id: a.id,
-				name: a.name
-			};
+			result.osx = a.browser_download_url;
 		if (/win/.test(a.name) && winExtPriority.indexOf(newExt) >= winExtPriority.indexOf(oldWinExt)) //win
-			result.win = {
-                id: a.id,
-                name: a.name
-            };;
+			result.win = a.browser_download_url;
 	}
 	return result;
 }
