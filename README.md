@@ -1,19 +1,17 @@
 # skygear-squirrel-endpoint
 A squirrel endpoint running on [Skygear Cloud Code](https://docs.skygear.io/guides/cloud-function/intro-and-deployment/python/) using GitHub as a backend.
 
+Only works on public GitHub repositories. Private repositories are **NOT** supported (see this [issue](https://github.com/skygear-demo/skygear-squirrel-server/issues/5) for more details).
 
 # How to deploy
 1. [Register an account](https://portal.skygear.io/signup) on Skygear.io if you haven't yet.
 
 2. [Signin to your account](https://portal.skygear.io/login) on Skygear.io.
 
-3. Go to [Settings](https://portal.skygear.io/app/ourskyty/settings), add the following environment variables:
+3. Go to [Settings](https://portal.skygear.io/app/ourskyty/settings), add the following environment variable:
     * `GITHUB_REPO` = `<your-repo-url>`
-    * `GITHUB_ACCESS_TOKEN` = `<your-github-access-token>` 
     
-    [Obtain an access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/#creating-a-token) if you haven't got one yet
-    
-4. Clone this repository by running `git clone https://github.com/tatgean/skygear-squirrel-endpoint.git`
+4. Clone this repository by running `git clone https://github.com/skygear-demo/skygear-squirrel-server`
 
 5. Follow [this guide](https://docs.skygear.io/guides/cloud-function/intro-and-deployment/python/#cloud-functions-deployment) to deploy the code to Skygear Cloud Code.
 
@@ -48,7 +46,11 @@ A squirrel endpoint running on [Skygear Cloud Code](https://docs.skygear.io/guid
   `Server status: GitHub Repo connected!`
 * if the server failed to connect to the GitHub repo, responses with text:
 
-  `Server status: Connection with GitHub repo failed. Check your environment variables(GITHUB_REPO and GITHUB_ACCESS_TOKEN) in Skygear portal.`
+  `Connection with GitHub repo failed. Please make sure environment variable - GITHUB_REPO - is a valid GitHub repo.`
+ 
+* if GITHUB_REPO is not set at all, responses with text:
+  `Environment variables GITHUB_REPO not set`
+
 # Update resolve strategy
 1. If the latest version > current version, return the latest version.
    > Example:
