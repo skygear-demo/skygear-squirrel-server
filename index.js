@@ -9,7 +9,7 @@ let serverStatus = 'Initializing....';
 try {
 	const githubRepo = new GitHubRepo('https://api.github.com/',
 		process.env.GITHUB_REPO, 
-		process.env.GITHUB_ACCESS_TOKEN
+		null
 	);
 	githubRepo.fetchReleases().then(function() {
 		serverStatus = 'GitHub repo connected!'
@@ -25,7 +25,7 @@ try {
 			userRequired: false
 		})
 	}).catch(function() {
-		serverStatus = 'Connection with GitHub repo failed. Check your environment variables(GITHUB_REPO and GITHUB_ACCESS_TOKEN) in Skygear portal.'
+		serverStatus = 'Connection with GitHub repo failed. Please make sure environment variable - GITHUB_REPO - is a valid GitHub repo.'
 	})
 
 } catch (e) {
