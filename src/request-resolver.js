@@ -1,7 +1,7 @@
 'use strict';
 var releaseParser = require('../src/release-parser');
 var semver = require('semver');
-var acceptedPlatforms = ['osx', 'win']
+var acceptedPlatforms = ['osx', 'win'];
 
 exports.resolve = function(githubRepo, version, platform) {
 	return githubRepo.fetchReleases().then(releases => {
@@ -9,7 +9,7 @@ exports.resolve = function(githubRepo, version, platform) {
 			return {
 				statusCode: 404,
 				body: `Invalid platform - ${platform}`
-			}
+			};
 		}
 
 		var latestRelease;
@@ -23,7 +23,7 @@ exports.resolve = function(githubRepo, version, platform) {
 				break;
 			} catch(e) {
 				if (e.message.startsWith('Invalid version number - '))
-				continue;
+					continue;
 			}
 		}
 
@@ -33,11 +33,11 @@ exports.resolve = function(githubRepo, version, platform) {
 				body: {
 					url: latestRelease[platform]
 				}
-			}
+			};
 		} else {
 			return {
 				statusCode: 204
-			}
+			};
 		}
-	})
-}
+	});
+};

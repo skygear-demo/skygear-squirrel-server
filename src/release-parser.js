@@ -23,4 +23,4 @@ exports.parse = function(data) {
 			result.win = a.browser_download_url;
 	}
 	return result;
-}
+};

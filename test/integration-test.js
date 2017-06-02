@@ -18,7 +18,7 @@ describe.skip('Integration test', () => {
 				body: {
 					url: 'https://github.com/tatgean/skygear-squirrel-endpoint-test/releases/download/v1.0.0/testing-osx.zip'
 				}
-			})
-		})
-	})
-})
+			});
+		});
+	});
+});

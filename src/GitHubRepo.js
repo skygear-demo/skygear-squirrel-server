@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var rp = require('request-promise');
 var url = require('url');
@@ -9,7 +9,7 @@ function GitHubRepo(host, repoUrl, accessToken) {
 	this.accessToken = accessToken;
 	this.uri = this.host + 'repos/' + this.repoPath + '/releases';
 	if (this.accessToken)
-		this.uri += "?access_token=" + this.accessToken;
+		this.uri += '?access_token=' + this.accessToken;
 }
 
 GitHubRepo.prototype.fetchReleases = function() {
@@ -36,7 +36,7 @@ GitHubRepo.prototype.fetchReleases = function() {
 			throw new Error('Connection failed.');
 		}
 	});
-}
+};
 
 GitHubRepo.prototype.validate = function() {
 	return rp({
@@ -48,8 +48,8 @@ GitHubRepo.prototype.validate = function() {
 		resolveWithFullResponse: true,
 		json : true
 	});
-}
+};
 
-GitHubRepo.prototype.fetchReleases
+GitHubRepo.prototype.fetchReleases;
 
 module.exports = GitHubRepo;
