@@ -55,9 +55,9 @@ Only works on public GitHub repositories. Private repositories are **NOT** suppo
 1. If the latest version > current version, return the latest version.
    > Example:
    > ###### Releases on GitHub: 
-   > v1.5.0 - myapp-osx.zip
+   > v1.5.0 - `myapp-osx.zip`, `myapp-win.exe`
    >
-   > v1.0.0 - myapp-osx.zip
+   > v1.0.0 - `myapp-osx.zip`, `myapp-win.exe`
    > ###### Request:
    > `/update?platform=osx&version=1.0.0`: 
    > ###### Response
