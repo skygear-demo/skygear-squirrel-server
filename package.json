@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://tatgean@github.com/tatgean/skygear-squirrel-endpoint.git"
+    "url": "git+https://github.com/skygear-demo/skygear-squirrel-server.git"
   },
   "author": "tatgean",
   "license": "",
   "bugs": {
-    "url": "https://github.com/tatgean/skygear-squirrel-endpoint/issues"
+    "url": "https://github.com/skygear-demo/skygear-squirrel-server/issues"
   },
-  "homepage": "https://github.com/tatgean/skygear-squirrel-endpoint#readme",
+  "homepage": "https://github.com/skygear-demo/skygear-squirrel-server#readme",
   "devDependencies": {
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
